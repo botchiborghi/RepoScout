@@ -76,6 +76,15 @@
         </div>
 
         <div class="section">
+          <h4>Summary</h4>
+          <table>
+            <tr><td>Setup</td><td>${(item.summary && item.summary.setup) || '—'}</td></tr>
+            <tr><td>Output</td><td>${(item.summary && item.summary.output) || '—'}</td></tr>
+            <tr><td>Value</td><td>${(item.summary && item.summary.value) || '—'}</td></tr>
+          </table>
+        </div>
+
+        <div class="section">
           <h4>Notes</h4>
           <p>${item.notes}</p>
         </div>
