@@ -46,7 +46,9 @@ Result: exit=0
 
 ## How we tried it
 - Ran unit tests locally via pytest.
-- Next step would be `delegate start` (needs ANTHROPIC_API_KEY) to exercise UI/workflow.
+- Attempted `delegate start --foreground` with ANTHROPIC_API_KEY.
+- **Failed:** Delegate doctor requires **Claude CLI** installed.
+  - Error: `Claude CLI not found in PATH` (install from Anthropic docs).
 
 ## How we'd use it
 - Long‑running agent teams for repo maintenance, QA, and batch refactors.
