@@ -2,6 +2,33 @@
   "updated": "2026-02-17",
   "items": [
     {
+      "name": "pipeline demo 2 (charts)",
+      "type": "repo",
+      "url": "(local) /home/node/.openclaw/.openclaw/workspace/pipeline-demo2",
+      "evidence": "reports/REPORT_pipeline2_usecase.md",
+      "tests": "3 passed",
+      "notes": "End-to-end run with charts (matplotlib).",
+      "howTried": [
+        "Created sample dataset (80 rows)",
+        "Ran pytest", 
+        "Generated HTML report + PNG charts"
+      ],
+      "howUse": [
+        "Reusable reporting pipeline with visuals",
+        "Template for QA + analyst review"
+      ],
+      "criteria": {
+        "Agent Systems Relevance": "Medium",
+        "Technical Maturity": "Low (demo)",
+        "Documentation & Onboarding": "Medium",
+        "Security / Sandboxing": "N/A",
+        "Extensibility / Architecture": "Medium",
+        "UX / Operability": "High",
+        "Risk / Dependencies": "Low",
+        "License & Openness": "N/A"
+      }
+    },
+    {
       "name": "pipeline demo",
       "type": "repo",
       "url": "(local) /home/node/.openclaw/.openclaw/workspace/pipeline-demo",
