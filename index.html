@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RepoScout — Scorecard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0b0d12; --card:#141824; --text:#e6e8ef; --muted:#a0a6b8; --accent:#7c3aed; }
+    body { margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
+    header { padding:32px 24px; max-width:980px; margin:0 auto; }
+    h1 { margin:0 0 6px; font-size:28px; }
+    p { margin:0; color:var(--muted); }
+    .card { background:var(--card); border-radius:16px; padding:24px; max-width:980px; margin:0 auto 48px; box-shadow:0 10px 30px rgba(0,0,0,.3); }
+    .footer { text-align:center; color:var(--muted); font-size:12px; margin:24px 0 48px; }
+    a { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RepoScout — Scorecard</h1>
+    <p>Evaluaciones cualitativas de repos/gists (sin ranking).</p>
+  </header>
+  <div class="card">
+    <div id="content">Cargando scorecard...</div>
+  </div>
+  <div class="footer">Actualizado desde SCORECARD.md</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    fetch('SCORECARD.md')
+      .then(r => r.text())
+      .then(md => {
+        document.getElementById('content').innerHTML = marked.parse(md);
+      })
+      .catch(() => {
+        document.getElementById('content').innerText = 'No se pudo cargar SCORECARD.md';
+      });
+  </script>
+</body>
+</html>
