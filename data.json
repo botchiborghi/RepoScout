@@ -1,0 +1,55 @@
+{
+  "updated": "2026-02-17",
+  "items": [
+    {
+      "name": "delegate",
+      "type": "repo",
+      "url": "https://github.com/nikhilgarg28/delegate",
+      "evidence": "reports/REPORT_nikhilgarg28-delegate.md",
+      "tests": "817 passed / 146 skipped / 11 warnings",
+      "notes": "Tests run locally with pytest. Warnings: missing pytest-asyncio markers.",
+      "howTried": [
+        "Local test run (pytest)",
+        "Reviewed README + architecture"
+      ],
+      "howUse": [
+        "Persistent multi-agent teams for maintenance/refactors",
+        "Review gates + workflow stages"
+      ],
+      "criteria": {
+        "Agent Systems Relevance": "High",
+        "Technical Maturity": "High",
+        "Documentation & Onboarding": "High",
+        "Security / Sandboxing": "High",
+        "Extensibility / Architecture": "High",
+        "UX / Operability": "Medium-High",
+        "Risk / Dependencies": "Medium",
+        "License & Openness": "MIT"
+      }
+    },
+    {
+      "name": "mviz (gist)",
+      "type": "gist",
+      "url": "https://gist.github.com/matsonj/1c13b656bca20b1d2cc6260309d8eb40",
+      "evidence": "reports/REPORT_mviz.md",
+      "tests": "N/A",
+      "notes": "Doc-level evaluation only (gist, no repo).",
+      "howTried": [
+        "Reviewed raw gist + sample report flow"
+      ],
+      "howUse": [
+        "Fast reporting for ad-hoc DS analysis"
+      ],
+      "criteria": {
+        "Agent Systems Relevance": "Low-Medium",
+        "Technical Maturity": "Medium (gist)",
+        "Documentation & Onboarding": "High",
+        "Security / Sandboxing": "N/A",
+        "Extensibility / Architecture": "Medium",
+        "UX / Operability": "High",
+        "Risk / Dependencies": "Medium",
+        "License & Openness": "Not specified"
+      }
+    }
+  ]
+}

@@ -1,82 +1,109 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RepoScout — Scorecard</title>
+  <title>RepoScout — Scorecards</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b0f14;
-      --panel:#121823;
-      --panel-2:#0f141d;
-      --border:#1f2736;
-      --text:#e8ebf2;
-      --muted:#a3adbd;
-      --accent:#7c3aed;
-      --accent-2:#22c55e;
-      --link:#8b9cff;
+      --bg:#0b0f14; --panel:#121823; --panel-2:#0f141d; --border:#1f2736;
+      --text:#e8ebf2; --muted:#a3adbd; --accent:#7c3aed; --accent-2:#22c55e; --link:#8b9cff;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-    header{max-width:1000px;margin:0 auto;padding:36px 24px 12px}
+    header{max-width:1100px;margin:0 auto;padding:36px 24px 12px}
     .badge{display:inline-flex;gap:8px;align-items:center;background:rgba(124,58,237,.12);color:#c7b8ff;border:1px solid rgba(124,58,237,.35);padding:6px 10px;border-radius:999px;font-size:12px}
     h1{margin:14px 0 6px;font-size:30px;letter-spacing:-0.02em}
     p{margin:0;color:var(--muted)}
-    .shell{max-width:1000px;margin:0 auto;padding:0 24px 60px}
-    .panel{background:linear-gradient(180deg, rgba(18,24,35,.95), rgba(15,20,29,.95));border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+    .shell{max-width:1100px;margin:0 auto;padding:0 24px 60px}
     .toolbar{display:flex;align-items:center;justify-content:space-between;margin:18px 0}
     .hint{font-size:12px;color:var(--muted)}
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
-    .md h2{margin-top:28px;border-top:1px dashed #243044;padding-top:18px}
-    .md h3{margin-top:18px}
-    .md ul{padding-left:20px}
-    .md code{background:#0d1220;border:1px solid #1e2635;border-radius:6px;padding:2px 6px}
-    .md blockquote{margin:12px 0;padding:10px 14px;border-left:3px solid var(--accent);background:var(--panel-2);color:#cfd6e5}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+    .card{background:linear-gradient(180deg, rgba(18,24,35,.96), rgba(15,20,29,.96));border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 16px 40px rgba(0,0,0,.35)}
+    .card h3{margin:0 0 6px}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+    .pill{border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2)}
+    .section{margin-top:14px}
+    .section h4{margin:0 0 8px;font-size:13px;color:#cbd3e3;text-transform:uppercase;letter-spacing:.08em}
+    ul{margin:0;padding-left:18px;color:var(--muted)}
+
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    td{padding:6px 0;border-bottom:1px dashed #223049;color:var(--muted)}
+    td:first-child{color:#d7ddee}
+
     footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
   </style>
 </head>
 <body>
   <header>
-    <span class="badge">RepoScout • scorecard</span>
+    <span class="badge">RepoScout • scorecards</span>
     <h1>Clear evaluations, no fluff</h1>
     <p>Qualitative scorecards for AI/DS/Agent Systems repos and gists.</p>
   </header>
 
   <div class="shell">
     <div class="toolbar">
-      <div class="hint">Synced from <code>SCORECARD.md</code></div>
+      <div class="hint">Updated from evidence reports</div>
       <div class="hint">Theme: dark, subtle</div>
     </div>
 
-    <div class="panel">
-      <div id="content" class="md">Loading scorecard...</div>
-    </div>
+    <div id="cards" class="grid"></div>
 
     <footer>RepoScout · modern, calm, effective.</footer>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    function linkReports(root){
-      root.querySelectorAll('a').forEach(a=>{
-        const href=a.getAttribute('href');
-        if(href && href.startsWith('/reports/')){
-          a.setAttribute('href', href.replace('/reports/', 'reports/'));
-        }
-      });
+    function renderCard(item){
+      const criteriaRows = Object.entries(item.criteria || {})
+        .map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+      const tried = (item.howTried||[]).map(x=>`<li>${x}</li>`).join('');
+      const use = (item.howUse||[]).map(x=>`<li>${x}</li>`).join('');
+
+      return `
+      <div class="card">
+        <h3>${item.name}</h3>
+        <div class="meta">
+          <span class="pill">${item.type}</span>
+          <span class="pill">Tests: ${item.tests}</span>
+          <a class="pill" href="${item.url}" target="_blank">Repo</a>
+          <a class="pill" href="${item.evidence}" target="_blank">Evidence</a>
+        </div>
+
+        <div class="section">
+          <h4>Notes</h4>
+          <p>${item.notes}</p>
+        </div>
+
+        <div class="section">
+          <h4>How we tried it</h4>
+          <ul>${tried}</ul>
+        </div>
+
+        <div class="section">
+          <h4>How we’d use it</h4>
+          <ul>${use}</ul>
+        </div>
+
+        <div class="section">
+          <h4>Scorecard</h4>
+          <table>${criteriaRows}</table>
+        </div>
+      </div>`;
     }
 
-    fetch('SCORECARD.md')
-      .then(r => r.text())
-      .then(md => {
-        document.getElementById('content').innerHTML = marked.parse(md);
-        linkReports(document.getElementById('content'));
+    fetch('data.json')
+      .then(r=>r.json())
+      .then(data=>{
+        const cards = data.items.map(renderCard).join('');
+        document.getElementById('cards').innerHTML = cards;
       })
-      .catch(() => { document.getElementById('content').innerText = 'Failed to load SCORECARD.md'; });
+      .catch(()=>{ document.getElementById('cards').innerHTML = '<p>Failed to load data.json</p>'; });
   </script>
 </body>
 </html>
