@@ -7,12 +7,18 @@
       "url": "https://github.com/nikhilgarg28/delegate",
       "evidence": "reports/REPORT_nikhilgarg28-delegate.md",
       "tests": "817 passed / 146 skipped / 11 warnings",
-      "notes": "Tests run locally with pytest. Warnings: missing pytest-asyncio markers. Delegate start blocked by missing Claude CLI.",
+      "notes": "Tests run locally with pytest. Delegate booted successfully with Claude CLI + ANTHROPIC_API_KEY.",
       "howTried": [
         "Local test run (pytest)",
-        "Attempted `delegate start --foreground` (blocked: Claude CLI missing)",
+        "Booted Delegate end‑to‑end (server + daemon) — see use case report",
         "Reviewed README + architecture"
       ],
+      "howUse": [
+        "Persistent multi‑agent teams for maintenance/refactors",
+        "Review gates + workflow stages",
+        "Local agent execution with UI"
+      ],
+      "useCase": "reports/REPORT_delegate_usecase.md",
       "howUse": [
         "Persistent multi-agent teams for maintenance/refactors",
         "Review gates + workflow stages"
