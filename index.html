@@ -53,7 +53,7 @@
     </div>
 
     <div class="panel">
-      <div id="content" class="md">Cargando scorecard...</div>
+      <div id="content" class="md">Loading scorecard...</div>
     </div>
 
     <footer>RepoScout · modern, calm, effective.</footer>
@@ -61,10 +61,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
+    function linkReports(root){
+      root.querySelectorAll('a').forEach(a=>{
+        const href=a.getAttribute('href');
+        if(href && href.startsWith('/reports/')){
+          a.setAttribute('href', href.replace('/reports/', 'reports/'));
+        }
+      });
+    }
+
     fetch('SCORECARD.md')
       .then(r => r.text())
-      .then(md => { document.getElementById('content').innerHTML = marked.parse(md); })
-      .catch(() => { document.getElementById('content').innerText = 'No se pudo cargar SCORECARD.md'; });
+      .then(md => {
+        document.getElementById('content').innerHTML = marked.parse(md);
+        linkReports(document.getElementById('content'));
+      })
+      .catch(() => { document.getElementById('content').innerText = 'Failed to load SCORECARD.md'; });
   </script>
 </body>
 </html>
