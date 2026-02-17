@@ -10,7 +10,7 @@
   <style>
     :root{
       --bg:#0b0f14; --panel:#121823; --panel-2:#0f141d; --border:#1f2736;
-      --text:#e8ebf2; --muted:#a3adbd; --accent:#7c3aed; --accent-2:#22c55e; --link:#8b9cff;
+      --text:#e8ebf2; --muted:#a3adbd; --accent:#7c3aed; --link:#8b9cff;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
@@ -24,19 +24,17 @@
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
 
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-    .card{background:linear-gradient(180deg, rgba(18,24,35,.96), rgba(15,20,29,.96));border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 16px 40px rgba(0,0,0,.35)}
-    .card h3{margin:0 0 6px}
-    .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+    .repo-card{background:linear-gradient(180deg, rgba(18,24,35,.96), rgba(15,20,29,.96));border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 16px 40px rgba(0,0,0,.35);margin-bottom:18px}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
     .pill{border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:var(--panel-2)}
     .section{margin-top:14px}
-    .section h4{margin:0 0 8px;font-size:13px;color:#cbd3e3;text-transform:uppercase;letter-spacing:.08em}
-    ul{margin:0;padding-left:18px;color:var(--muted)}
-
+    .section h4{margin:0 0 8px;font-size:12px;color:#cbd3e3;text-transform:uppercase;letter-spacing:.08em}
     table{width:100%;border-collapse:collapse;font-size:13px}
     td{padding:6px 0;border-bottom:1px dashed #223049;color:var(--muted)}
     td:first-child{color:#d7ddee}
-
+    ul{margin:0;padding-left:18px;color:var(--muted)}
+    .usecase{background:#0f141d;border:1px solid #1f2736;border-radius:12px;padding:12px;margin:8px 0}
+    .usecase h5{margin:0 0 4px;font-size:14px}
     footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
   </style>
 </head>
@@ -44,7 +42,7 @@
   <header>
     <span class="badge">RepoScout • scorecards</span>
     <h1>Clear evaluations, no fluff</h1>
-    <p>Qualitative scorecards for AI/DS/Agent Systems repos and gists.</p>
+    <p>Repos first. Then real use cases run against each repo.</p>
   </header>
 
   <div class="shell">
@@ -53,50 +51,48 @@
       <div class="hint">Theme: dark, subtle</div>
     </div>
 
-    <div id="cards" class="grid"></div>
+    <div id="repos"></div>
 
     <footer>RepoScout · modern, calm, effective.</footer>
   </div>
 
   <script>
-    function renderCard(item){
-      const criteriaRows = Object.entries(item.criteria || {})
+    function renderRepo(repo){
+      const criteriaRows = Object.entries(repo.criteria || {})
         .map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
-      const tried = (item.howTried||[]).map(x=>`<li>${x}</li>`).join('');
-      const use = (item.howUse||[]).map(x=>`<li>${x}</li>`).join('');
+      const useCases = (repo.use_cases||[]).map(u=>`
+        <div class="usecase">
+          <h5>${u.name}</h5>
+          <div class="meta">
+            <span class="pill">Output: ${u.output}</span>
+            <a class="pill" href="${u.evidence}" target="_blank">Evidence</a>
+          </div>
+          <p>${u.summary}</p>
+        </div>
+      `).join('') || '<p class="hint">No use cases yet.</p>';
 
       return `
-      <div class="card">
-        <h3>${item.name}</h3>
+      <div class="repo-card">
+        <h3>${repo.name}</h3>
         <div class="meta">
-          <span class="pill">${item.type}</span>
-          <span class="pill">Tests: ${item.tests}</span>
-          <a class="pill" href="${item.url}" target="_blank">Repo</a>
-          <a class="pill" href="${item.evidence}" target="_blank">Evidence</a>
+          <span class="pill">${repo.type}</span>
+          <span class="pill">Tests: ${repo.tests}</span>
+          <a class="pill" href="${repo.url}" target="_blank">Repo</a>
+          <a class="pill" href="${repo.evidence}" target="_blank">Evidence</a>
         </div>
 
         <div class="section">
           <h4>Summary</h4>
           <table>
-            <tr><td>Setup</td><td>${(item.summary && item.summary.setup) || '—'}</td></tr>
-            <tr><td>Output</td><td>${(item.summary && item.summary.output) || '—'}</td></tr>
-            <tr><td>Value</td><td>${(item.summary && item.summary.value) || '—'}</td></tr>
+            <tr><td>Setup</td><td>${repo.summary?.setup || '—'}</td></tr>
+            <tr><td>Output</td><td>${repo.summary?.output || '—'}</td></tr>
+            <tr><td>Value</td><td>${repo.summary?.value || '—'}</td></tr>
           </table>
         </div>
 
         <div class="section">
-          <h4>Notes</h4>
-          <p>${item.notes}</p>
-        </div>
-
-        <div class="section">
-          <h4>How we tried it</h4>
-          <ul>${tried}</ul>
-        </div>
-
-        <div class="section">
-          <h4>How we’d use it</h4>
-          <ul>${use}</ul>
+          <h4>Use cases</h4>
+          ${useCases}
         </div>
 
         <div class="section">
@@ -109,10 +105,10 @@
     fetch('data.json')
       .then(r=>r.json())
       .then(data=>{
-        const cards = data.items.map(renderCard).join('');
-        document.getElementById('cards').innerHTML = cards;
+        const cards = data.repos.map(renderRepo).join('');
+        document.getElementById('repos').innerHTML = cards;
       })
-      .catch(()=>{ document.getElementById('cards').innerHTML = '<p>Failed to load data.json</p>'; });
+      .catch(()=>{ document.getElementById('repos').innerHTML = '<p>Failed to load data.json</p>'; });
   </script>
 </body>
 </html>

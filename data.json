@@ -1,97 +1,17 @@
 {
   "updated": "2026-02-17",
-  "items": [
-    {
-      "name": "pipeline demo 2 (charts)",
-      "type": "repo",
-      "url": "(local) /home/node/.openclaw/.openclaw/workspace/pipeline-demo2",
-      "evidence": "reports/REPORT_pipeline2_usecase.md",
-      "tests": "3 passed",
-      "summary": {
-        "setup": "Two agents: one set up the pipeline and dataset; another ran tests and generated the report with charts.",
-        "output": "HTML report + 2 charts (bar + histogram).",
-        "value": "Shows this repo can quickly turn raw CSVs into readable, visual insights."
-      },
-      "notes": "End-to-end run with charts (matplotlib).",
-      "howTried": [
-        "Created sample dataset (80 rows)",
-        "Ran pytest", 
-        "Generated HTML report + PNG charts"
-      ],
-      "howUse": [
-        "Reusable reporting pipeline with visuals",
-        "Template for QA + analyst review"
-      ],
-      "criteria": {
-        "Agent Systems Relevance": "Medium",
-        "Technical Maturity": "Low (demo)",
-        "Documentation & Onboarding": "Medium",
-        "Security / Sandboxing": "N/A",
-        "Extensibility / Architecture": "Medium",
-        "UX / Operability": "High",
-        "Risk / Dependencies": "Low",
-        "License & Openness": "N/A"
-      }
-    },
-    {
-      "name": "pipeline demo",
-      "type": "repo",
-      "url": "(local) /home/node/.openclaw/.openclaw/workspace/pipeline-demo",
-      "evidence": "reports/REPORT_pipeline_usecase.md",
-      "tests": "3 passed",
-      "summary": {
-        "setup": "Two agents: one created the pipeline + dataset; one ran tests and generated the report.",
-        "output": "HTML report with metrics and category counts.",
-        "value": "Gives a fast, repeatable analysis artifact from raw CSVs."
-      },
-      "notes": "End-to-end run: CSV ingest → clean → metrics → HTML report.",
-      "howTried": [
-        "Created sample dataset (60 rows)",
-        "Ran pytest", 
-        "Generated HTML report"
-      ],
-      "howUse": [
-        "Template for automated data QA runs",
-        "Quick reporting for DS reviews"
-      ],
-      "criteria": {
-        "Agent Systems Relevance": "Medium",
-        "Technical Maturity": "Low (demo)",
-        "Documentation & Onboarding": "Medium",
-        "Security / Sandboxing": "N/A",
-        "Extensibility / Architecture": "Medium",
-        "UX / Operability": "High",
-        "Risk / Dependencies": "Low",
-        "License & Openness": "N/A"
-      }
-    },
+  "repos": [
     {
       "name": "delegate",
-      "type": "repo",
       "url": "https://github.com/nikhilgarg28/delegate",
-      "evidence": "reports/REPORT_nikhilgarg28-delegate.md",
-      "tests": "817 passed / 146 skipped / 11 warnings",
+      "type": "repo",
       "summary": {
         "setup": "Booted Delegate with Claude CLI + ANTHROPIC_API_KEY; auto‑created a team (manager + 5 engineers) and registered a repo.",
         "output": "Running agent platform (UI + daemon) ready to accept tasks.",
         "value": "Confirms the repo can orchestrate multi‑agent workflows locally."
       },
-      "notes": "Tests run locally with pytest. Delegate booted successfully with Claude CLI + ANTHROPIC_API_KEY.",
-      "howTried": [
-        "Local test run (pytest)",
-        "Booted Delegate end‑to‑end (server + daemon) — see use case report",
-        "Reviewed README + architecture"
-      ],
-      "howUse": [
-        "Persistent multi‑agent teams for maintenance/refactors",
-        "Review gates + workflow stages",
-        "Local agent execution with UI"
-      ],
-      "useCase": "reports/REPORT_delegate_usecase.md",
-      "howUse": [
-        "Persistent multi-agent teams for maintenance/refactors",
-        "Review gates + workflow stages"
-      ],
+      "evidence": "reports/REPORT_nikhilgarg28-delegate.md",
+      "tests": "817 passed / 146 skipped / 11 warnings",
       "criteria": {
         "Agent Systems Relevance": "High",
         "Technical Maturity": "High",
@@ -101,21 +21,33 @@
         "UX / Operability": "Medium-High",
         "Risk / Dependencies": "Medium",
         "License & Openness": "MIT"
-      }
+      },
+      "use_cases": [
+        {
+          "name": "Pipeline demo (baseline)",
+          "summary": "CSV ingest → clean → metrics → HTML report.",
+          "output": "HTML report with metrics and category counts.",
+          "evidence": "reports/REPORT_pipeline_usecase.md"
+        },
+        {
+          "name": "Pipeline demo 2 (with charts)",
+          "summary": "CSV ingest → clean → metrics → HTML report + charts.",
+          "output": "HTML report + bar chart + histogram.",
+          "evidence": "reports/REPORT_pipeline2_usecase.md"
+        }
+      ]
     },
     {
       "name": "mviz (gist)",
-      "type": "gist",
       "url": "https://gist.github.com/matsonj/1c13b656bca20b1d2cc6260309d8eb40",
+      "type": "gist",
+      "summary": {
+        "setup": "No repo; doc-only review.",
+        "output": "Skill spec for HTML report generation.",
+        "value": "Good for fast reporting, not orchestration."
+      },
       "evidence": "reports/REPORT_mviz.md",
       "tests": "N/A",
-      "notes": "Doc-level evaluation only (gist, no repo).",
-      "howTried": [
-        "Reviewed raw gist + sample report flow"
-      ],
-      "howUse": [
-        "Fast reporting for ad-hoc DS analysis"
-      ],
       "criteria": {
         "Agent Systems Relevance": "Low-Medium",
         "Technical Maturity": "Medium (gist)",
@@ -125,7 +57,8 @@
         "UX / Operability": "High",
         "Risk / Dependencies": "Medium",
         "License & Openness": "Not specified"
-      }
+      },
+      "use_cases": []
     }
   ]
 }
