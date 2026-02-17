@@ -1,28 +1,30 @@
-# RepoScout Use Case Run — pipeline demo
+# RepoScout Evidence — Pipeline Demo (baseline)
 Date: 2026-02-17 20:11 UTC
 
-## Use case
-**Goal:** Ingest CSV → clean → compute metrics → generate HTML report.
+## What was ingested
+- CSV file: `sample.csv`
+- Columns: id, category, value, date, notes
+- Rows: 60
+- Link: https://botchiborghi.github.io/RepoScout/reports/pipeline-demo-data/sample.csv
 
-## Setup
-- Python venv + pandas
-- Sample dataset: 60 rows, 5 columns (id, category, value, date, notes)
+## Queries / transforms
+- Load: `pd.read_csv()`
+- Clean:
+  - `pd.to_datetime(date, errors='coerce')`
+  - Fill missing numeric values with median
+  - Fill missing categorical values with "Unknown"
+- Metrics:
+  - `df.describe()` for numeric summary
+  - `value_counts()` on `category`
 
-## Commands
+## Commands executed
 ```bash
 pytest -q
 python -m pipeline.run --input data/sample.csv --output reports/report.html
 ```
 
-## Results
-- ✅ Tests: **3 passed**
-- ✅ Report generated: `reports/report.html`
-- Rows processed: 60
+## Outputs
+- HTML report: https://botchiborghi.github.io/RepoScout/reports/REPORT_pipeline_usecase.html
 
-## Output preview
-- Category counts, numeric summary tables
-- HTML report produced locally (see link)
-
-## Value
-- Demonstrates the full pipeline flow end-to-end
-- Cheap to run, easy to extend
+## Notes
+- This is a minimal baseline run to validate end‑to‑end flow.

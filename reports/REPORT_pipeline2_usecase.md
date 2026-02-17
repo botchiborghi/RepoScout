@@ -1,28 +1,36 @@
-# RepoScout Use Case Run — pipeline demo 2 (with charts)
+# RepoScout Evidence — Pipeline Demo 2 (with charts)
 Date: 2026-02-17 20:15 UTC
 
-## Use case
-**Goal:** Ingest CSV → clean → compute metrics → generate HTML report **with charts**.
+## What was ingested
+- CSV file: `sample.csv`
+- Columns: id, category, value, date, notes
+- Rows: 80
+- Link: https://botchiborghi.github.io/RepoScout/reports/pipeline-demo2-data/sample.csv
 
-## Setup
-- Python venv + pandas + matplotlib
-- Sample dataset: 80 rows, 5 columns (id, category, value, date, notes)
+## Queries / transforms
+- Load: `pd.read_csv()`
+- Clean:
+  - `pd.to_datetime(date, errors='coerce')`
+  - Fill missing numeric values with median
+  - Fill missing categorical values with "Unknown"
+- Metrics:
+  - `df.describe()` for numeric summary
+  - `value_counts()` on `category`
+- Charts:
+  - Bar chart: category counts
+  - Histogram: value distribution
 
-## Commands
+## Commands executed
 ```bash
 pytest -q
 python -m pipeline.run --input data/sample.csv --output reports/report.html --assets assets
 ```
 
-## Results
-- ✅ Tests: **3 passed**
-- ✅ Report generated: `reports/report.html`
-- ✅ Charts generated: `assets/category_counts.png`, `assets/value_hist.png`
+## Outputs
+- HTML report: https://botchiborghi.github.io/RepoScout/reports/REPORT_pipeline2_usecase.html
+- Charts:
+  - https://botchiborghi.github.io/RepoScout/reports/pipeline-demo2-assets/category_counts.png
+  - https://botchiborghi.github.io/RepoScout/reports/pipeline-demo2-assets/value_hist.png
 
-## Output preview
-- Category bar chart + value histogram
-- HTML report embeds chart images (see link)
-
-## Value
-- Demonstrates full analysis + visualization pipeline end‑to‑end
-- Easy to extend with new metrics or charts
+## Notes
+- This run includes visuals and is meant to feel “report‑ready.”
