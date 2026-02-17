@@ -2,6 +2,33 @@
   "updated": "2026-02-17",
   "items": [
     {
+      "name": "pipeline demo",
+      "type": "repo",
+      "url": "(local) /home/node/.openclaw/.openclaw/workspace/pipeline-demo",
+      "evidence": "reports/REPORT_pipeline_usecase.md",
+      "tests": "3 passed",
+      "notes": "End-to-end run: CSV ingest → clean → metrics → HTML report.",
+      "howTried": [
+        "Created sample dataset (60 rows)",
+        "Ran pytest", 
+        "Generated HTML report"
+      ],
+      "howUse": [
+        "Template for automated data QA runs",
+        "Quick reporting for DS reviews"
+      ],
+      "criteria": {
+        "Agent Systems Relevance": "Medium",
+        "Technical Maturity": "Low (demo)",
+        "Documentation & Onboarding": "Medium",
+        "Security / Sandboxing": "N/A",
+        "Extensibility / Architecture": "Medium",
+        "UX / Operability": "High",
+        "Risk / Dependencies": "Low",
+        "License & Openness": "N/A"
+      }
+    },
+    {
       "name": "delegate",
       "type": "repo",
       "url": "https://github.com/nikhilgarg28/delegate",
