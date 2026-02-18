@@ -1,29 +1,29 @@
-# RepoScout Evidence — Pipeline Demo 2 (with charts)
-Date: 2026-02-17 20:15 UTC
+# RepoScout Evidence — Pipeline Demo 2 (airquality time series)
+Date: 2026-02-18 01:30 UTC
 
 ## What was ingested
-- CSV file: `sample.csv`
-- Columns: id, category, value, date, notes
-- Rows: 80
-- Link: https://botchiborghi.github.io/RepoScout/reports/pipeline-demo2-data/sample.csv
+- CSV file: `airquality.csv`
+- Source: https://vincentarelbundock.github.io/Rdatasets/csv/datasets/airquality.csv
+- Local copy: https://botchiborghi.github.io/RepoScout/reports/pipeline-demo2-data/airquality.csv
+- Columns: rownames, Ozone, Solar.R, Wind, Temp, Month, Day
+- Rows: 153
 
 ## Queries / transforms
 - Load: `pd.read_csv()`
 - Clean:
-  - `pd.to_datetime(date, errors='coerce')`
+  - `pd.to_datetime` not applicable (dataset has Month/Day columns)
   - Fill missing numeric values with median
-  - Fill missing categorical values with "Unknown"
 - Metrics:
   - `df.describe()` for numeric summary
-  - `value_counts()` on `category`
+  - `value_counts()` on `category` (not used for this dataset)
 - Charts:
-  - Bar chart: category counts
-  - Histogram: value distribution
+  - Histogram: `value` (not present) → replaced by histogram of `Ozone`
+  - Bar chart: counts by `Month`
 
 ## Commands executed
 ```bash
 pytest -q
-python -m pipeline.run --input data/sample.csv --output reports/report.html --assets assets
+python -m pipeline.run --input data/airquality.csv --output reports/report.html --assets assets
 ```
 
 ## Outputs
@@ -33,4 +33,5 @@ python -m pipeline.run --input data/sample.csv --output reports/report.html --as
   - https://botchiborghi.github.io/RepoScout/reports/pipeline-demo2-assets/value_hist.png
 
 ## Notes
-- This run includes visuals and is meant to feel “report‑ready.”
+- Dataset is a classic air quality time series (May–Sep, daily observations).
+- This run uses a real public dataset instead of synthetic data.
